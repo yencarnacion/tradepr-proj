@@ -1,5 +1,5 @@
-== tradepr-project
-The work tradepr-project is comprised of tradepr-ansible-server, 
+== tradepr-proj
+The work tradepr-proj is comprised of tradepr-ansible-server, 
 tradepr-clj-server, and tradepr-react. 
 
 === License
