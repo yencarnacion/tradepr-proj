@@ -1,0 +1,61 @@
+---
+- name: Deploy tradepr
+  hosts: tradepr
+  vars:
+    proj_name: tradepr-project
+    database_user: "{{ proj_name }}"
+    database_name: "{{ proj_name }}"
+    zipuri: http://www.estadisticas.pr/iepr/LinkClick.aspx?fileticket=JVyYmIHqbqc%3d&tabid=200
+    locale: en_US.UTF-8
+  vars_files:
+    - secrets.yml
+  pre_tasks:
+    - name: install apt packages
+      apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+      sudo: True
+      with_items:
+        - git
+        - python-pip
+        - python-virtualenv
+        - python-psycopg2
+        - python-apt
+        - unzip
+  roles:
+    - role: ansible-postgres
+      postgres_username: "{{ database_user }}"
+      postgres_password: "{{ db_pass }}"
+      sudo: True
+    - role: csv2Postgres
+      sudo: True
+    - role: ansiblebit.oracle-java
+      oracle_java_set_as_default: yes
+      sudo: True
+  tasks:
+    - name: copy clojure project to remote machine
+      synchronize: src=../tradepr-clj-server dest=/home/vagrant/tradepr recursive=yes
+    - name: create /home/vagrant/bin
+      file: > 
+        path=/home/vagrant/bin/
+        state=directory 
+        mode=0755 
+        recurse=yes 
+        owner=vagrant 
+        group=vagrant
+    - name: download lein
+      get_url: >
+         dest=/home/vagrant/bin
+         url=https://raw.github.com/technomancy/leiningen/stable/bin/lein
+    - name: make leiningen executable
+      file: path=/home/vagrant/bin/lein state=touch mode=0755
+    - name: compile tradepr
+      shell: /home/vagrant/bin/lein uberjar
+      args:
+        chdir: /home/vagrant/tradepr/tradepr-clj-server
+    - name: set /home/vagrant ownership
+      file: path=/home/vagrant owner=vagrant group=vagrant recurse=yes
+    - name: copy upstart job
+      template: src=templates/tradepr.conf.j2 dest=/etc/init/tradepr.conf owner=root group=root mode=0644
+      sudo: True
+    - name: start job
+      command: start tradepr
+      sudo: True

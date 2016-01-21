@@ -1,0 +1,26 @@
+== tradepr-ansible-server
+tradepr-ansible-server is an Ansible playbook for downloading a zip file from a URI containing csv files, importing those csv files into postgresql automatically inside of a Vagrant VM, and making those csv files available via a REST API using a simgple clojure program.
+
+=== What is needed to run the program
+You must have Ansible, VirtualBox, and Vagrant installed. See DEPENDENCIES.adoc 
+As provided, the Vagrant VM will use all of your cores and 2 Gigabytes of your memory.
+
+=== How to run
+.To get this project working, perform the minimum steps:
+----
+ $ vagrant up 
+ $ ansible-playbook tradepr.yml
+----
+The above opens up a compojure app on localhost port 3000
+To see results point your browser to http://localhost:3000/api/tradepr
+The project merges https://github.com/yencarnacion/tradepr and https://github.com/yencarnacion/zipWithCsvToPostgresVM into one project.
+ 
+
+=== Notes
+The first time you run "vagrant up" it will take longer than subsequent times as it will download an Ubuntu base VM. So, be patient!
+
+If there isn't enough memory for the Vagrant VM to process your csv files, the Ansible script may exit without finishing.  In that case, you will need to manually modify the Vagrantfile so that enough memory is allocated for the Vagrant VM.
+
+=== Other
+This playbook uses the role from https://github.com/nickjj/ansible-postgres with the MIT License.
+

@@ -1,0 +1,14 @@
+== tradepr
+A simple Clojure web app designed to output a SQL query output as json
+
+=== What is needed to run the program
+The app expects a database to be up ... See https://github.com/yencarnacion/zipWithCsvToPostgresVM
+
+=== How to run
+.To get this project working, perform the minimum steps:
+----
+ $ lein uberjar
+ $ export DATABASE_URL="postgresql://tradepr-project:tradepr-project@localhost:5432/tradepr-project"; java -jar target/tradepr-0.1.0-SNAPSHOT-standalone.jar
+----
+The above opens up a compojure app on localhost port 3000
+To see results point your browser to http://localhost:3000/api/tradepr

@@ -1,0 +1,13 @@
+== Ansible Project Dependencies
+
+=== What you need to run on OSX
+.Download and install the following:
+* install VirtualBox From https://www.virtualbox.org
+* install Vagrant from https://www.vagrantup.com
+* install ansible (see instructions below)
+
+.Install Ansible (on OSX)
+----
+$ sudo easy_install pip
+$ sudo pip install ansible
+----

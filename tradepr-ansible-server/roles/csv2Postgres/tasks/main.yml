@@ -1,0 +1,30 @@
+---
+- name: add repo for unstable python
+  apt_repository: repo='ppa:pythonxy/pythonxy-devel'
+  sudo: True
+- name: install unstable pandas
+  apt: pkg=python-pandas update_cache=yes cache_valid_time=3600
+  sudo: True
+- name: pip requirements
+  pip: name={{ item }}
+  sudo: True
+  with_items:
+    - sqlalchemy
+- name: create the database
+  postgresql_db:
+    name: "{{ database_name }}"
+    owner: "{{ database_user }}"
+    encoding: UTF8
+    lc_ctype: "{{ locale }}"
+    lc_collate: "{{ locale }}"
+    template: template0
+  sudo: True
+  sudo_user: postgres
+- name: import csv files
+  import_zip_csv:
+    dbname: "{{ database_name }}"
+    dbuser: "{{ database_user }}"
+    dbpassword: "{{ db_pass }}"
+    zipuri: "{{ zipuri }}"
+  sudo: True
+  sudo_user: postgres

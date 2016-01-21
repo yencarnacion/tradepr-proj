@@ -1,0 +1,22 @@
+# tradepr
+#
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+
+console log
+
+setuid vagrant
+setgid vagrant
+
+respawn
+
+env JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+env PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/usr/lib/spark/bin
+env HOME=/home/vagrant
+
+env DATABASE_URL=postgresql://{{database_user}}:{{db_pass}}@localhost:5432/{{database_name}}
+
+exec /usr/bin/java -jar /home/vagrant/tradepr/tradepr-clj-server/target/tradepr-0.1.0-SNAPSHOT-standalone.jar

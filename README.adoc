@@ -1,0 +1,23 @@
+== tradepr-project
+The work tradepr-project is comprised of tradepr-ansible-server, 
+tradepr-clj-server, and tradepr-react. 
+
+=== License
+This work (tradepr-proj) is licensed by 
+Yamir Encarnación <yencarnacion@webninjapr.com>
+under a Creative Commons Attribution-NonCommercial 4.0 International License
+with Clarification.  See LICENSE.txt
+
+=== How to run
+.To get this project working, perform the minimum steps:
+----
+ $ cd tradepr-ansible-server
+ $ vagrant up
+ $ ansible-playbook tradepr.yml
+ $ cd ../tradepr-react
+ $ npm install
+ $ gulp
+ $ cd build
+ $ sleep 3 && open "http://localhost:8000/" & python -m SimpleHTTPServer 8000
+----
+To see results point your browser to http://localhost:8000/
