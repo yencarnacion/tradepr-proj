@@ -5,7 +5,7 @@ var lessify = require('lessify');
 var source = require('vinyl-source-stream');
 
 gulp.task('default', function () {
-  return browserify('./source/app.js')
+  return browserify('./source/index.js')
         .transform('lessify',{})
         .transform('babelify', {presets: ['es2015', 'react']})
         .bundle()

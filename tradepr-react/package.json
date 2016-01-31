@@ -18,12 +18,20 @@
   },
   "dependencies": {
     "d3": "^3.5.12",
-    "flux": "^2.1.1",
+    "es6-promise": "^3.0.2",
+    "history": "^1.17.0",
+    "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.1.4",
     "keymirror": "^0.1.1",
     "lessify": "^1.0.1",
     "node-lessify": "^0.1.1",
     "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.1.2",
+    "react-router": "^1.0.3",
+    "redux": "^3.1.6",
+    "redux-logger": "^2.4.0",
+    "redux-router": "^1.0.0-beta3",
+    "redux-thunk": "^1.0.3"
   }
 }
