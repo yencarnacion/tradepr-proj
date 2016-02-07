@@ -53,8 +53,14 @@ export function fetchTopTrading(date) {
   // It passes the dispatch method as an argument to the function,
   // thus making it able to dispatch actions itself.
 
-  return function (dispatch) {
+  return function (dispatch, getState) {
 
+    const topTradingByDate = getState().topTradingByDate[date];
+    // if there is an entry in the case for the date it gets used
+    // instead of refetching from the server
+    if(topTradingByDate){
+      return dispatch(selectTopTrading(date));
+    }
     // First dispatch: the app state is updated to inform
     // that the API call is starting.
 
@@ -76,7 +82,7 @@ export function fetchTopTrading(date) {
         // Here, we update the app state with the results of the API call.
         {
           dispatch(selectTopTrading(date));
-          dispatch(receiveTopTrading(date, json));
+          return dispatch(receiveTopTrading(date, json));
         }
       )
 
