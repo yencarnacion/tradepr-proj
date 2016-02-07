@@ -10,6 +10,7 @@
                  [ring/ring-defaults "0.1.5"]
                  [ring/ring-json "0.4.0"]
                  [ring-cors "0.1.7"]
+                 [ring-logger "0.7.5"]
                  [org.clojure/data.json "0.2.6"]
                  [compojure "1.4.0"]]
   :profiles {:repl {:plugins [[cider/cider-nrepl "0.11.0-SNAPSHOT"]]

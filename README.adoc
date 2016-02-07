@@ -1,14 +1,27 @@
-{asterisk}{asterisk}{asterisk} *Note:* The lastest code is in the **isomorphic** branch.  You are in the *master* branch. {asterisk}{asterisk}{asterisk}
 
 == tradepr-proj
-The work tradepr-proj is comprised of tradepr-ansible-server, 
-tradepr-clj-server, and tradepr-react. 
+The work tradepr-proj is comprised of tradepr-ansible-server,
+tradepr-clj-server, and tradepr-react.
+
+=== What is this about
+tradepr-proj is a work in progress.
+Here, I am using the latest technologies such as hapi.js ( http://hapijs.com ),
+react ( https://github.com/facebook/react ),
+redux ( http://redux.js.org ), and
+ES2015 ( https://en.wikipedia.org/wiki/ECMAScript ) to create an isomorphic
+(aka. universal or server rendered) node.js ( https://nodejs.org/ ) app.
+It also uses ansible ( https://github.com/ansible/ansible )
+and Clojure ( https://clojure.org/ ).
 
 === License
-This work (tradepr-proj) is licensed by 
+This work (tradepr-proj) is licensed by
 Yamir Encarnación <yencarnacion@webninjapr.com>
 under a Creative Commons Attribution-NonCommercial 4.0 International License
 with Clarification.  See LICENSE.txt
+
+=== What is needed to run the program
+You must have Ansible, VirtualBox, Vagrant, and node.js installed.
+See DEPENDENCIES.adoc.
 
 === How to run
 .To get this project working, perform the minimum steps:
@@ -19,7 +32,29 @@ with Clarification.  See LICENSE.txt
  $ cd ../tradepr-react
  $ npm install
  $ gulp
- $ cd build
- $ sleep 3 && open "http://localhost:8000/" & python -m SimpleHTTPServer 8000
 ----
-To see results point your browser to http://localhost:8000/
+To see results point your browser to http://localhost:4000/
+Type `201508` in the date box and hit 'Go'.
+
+To see server side rendering in action type (in a open terminal)
+`curl http://localhost:4000/2015/7`
+
+=== If you got this far, what are you looking at?
+You are looking at Puerto Rico's top import/export destinations by year and month.
+The data comes from the Puerto Rico Statistics Institute.  The database used can be
+found at
+http://www.estadisticas.pr/iepr/Estadisticas/Basesdedatos/Economia.aspx#CEPR
+
+If you are feeling underwhelmed at the lack of graphs come back when there are more graphics.
+At the moment, my aim is to create something in the spirit of the US Census Foreign Trade
+website which can be seen at
+http://www.census.gov/foreign-trade/statistics/graphs/TopPartners.html
+So far, I have focused on building a foundation that will support what is coming.
+
+=== Clean up when you are done
+.Perform these steps:
+----
+ $ To stop the hapi.js server hit Ctrl-C at the command line where the gulp process is running
+ $ cd ../tradepr-ansible-server/
+ $ vagrant destroy
+----

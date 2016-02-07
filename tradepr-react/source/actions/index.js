@@ -5,7 +5,6 @@
 // { type: 'FETCH_TOPIMPORTS_SUCCESS', response: { ... } }
 
 import fetch from 'isomorphic-fetch'
-import { API } from '../constants'
 export const SELECT_TOPTRADING = 'SELECT_TOPTRADING'
 
 export function selectTopTrading(date) {
@@ -74,7 +73,7 @@ export function fetchTopTrading(date) {
     let year = date.substring(0, 4);
     let month = Number(date.substring(4));
 
-    return fetch(`${API}/api/tradepr/toptrading/${year}/${month}`)
+    return fetch(`/api/tradepr/toptrading/${year}/${month}`)
       .then(response => response.json())
       .then(json =>
 

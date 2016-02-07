@@ -9,6 +9,7 @@
             [ring.middleware.json :as ring-json]
             [ring.middleware.cors :refer [wrap-cors]]
             [ring.util.response :as resp]
+            [ring.logger :as logger]
             ))
 
 (defn tradepr [] (db/query pool ["SELECT * FROM \"IMPORT_HTS10_ALL\" LIMIT 10"]))
@@ -45,4 +46,6 @@
       (wrap-defaults site-defaults)
       (wrap-cors :access-control-allow-origin [#".*"]
                   :access-control-allow-methods [:get :put :post :delete])
-      (ring-json/wrap-json-response)))
+      (ring-json/wrap-json-response)
+      (logger/wrap-with-logger)
+  ))
