@@ -58,7 +58,7 @@ export function fetchTopTrading(date) {
     const topTradingByDate = getState().topTradingByDate[date];
     // if there is an entry in the case for the date it gets used
     // instead of refetching from the server
-    if(topTradingByDate){
+    if(topTradingByDate && !(topTradingByDate.isFetching) && !(topTradingByDate.didInvalidate)){
       return dispatch(selectTopTrading(date));
     }
     // First dispatch: the app state is updated to inform
