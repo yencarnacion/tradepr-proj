@@ -2,7 +2,7 @@
 require('es6-promise').polyfill();
 import Hapi from 'hapi';
 import qs from 'query-string';
-import configureStoreServer from '../store/configurestore'
+import {configureStoreServer} from '../store/configurestore'
 import Root from '../containers/Root';
 import serialize from 'serialize-javascript';
 import {reduxReactRouter, match} from 'redux-router/server'
@@ -33,7 +33,7 @@ const getMarkup = (store) => {
     <Root store={store} key="root" />
   );
 
-  return `<!doctype html>
+  return `<!DOCTYPE html>
     <html>
       <head>
         <meta charset="utf-8" />

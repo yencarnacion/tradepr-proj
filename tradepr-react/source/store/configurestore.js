@@ -22,12 +22,15 @@ const finalCreateStoreServer = compose(
   applyMiddleware(loggerMiddleware)
 )(createStore)
 
-export default function configureStore(initialState) {
-    const store = finalCreateStore(rootReducer, initialState);
-    return store
-}
-
-export default function configureStoreServer(initialState) {
+function configureStoreServer(initialState) {
     const store = finalCreateStoreServer(rootReducer, initialState);
     return store
 }
+
+function configureStore(initialState) {
+    const store = finalCreateStore(rootReducer, initialState);
+    return store
+}
+export {configureStoreServer, configureStore};
+
+
