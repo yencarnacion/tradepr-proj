@@ -1,3 +1,5 @@
+{asterisk}{asterisk}{asterisk} *Note:* The lastest code is in the **isomorphic** branch.  You are in the *master* branch. {asterisk}{asterisk}{asterisk}
+
 == tradepr-proj
 The work tradepr-proj is comprised of tradepr-ansible-server, 
 tradepr-clj-server, and tradepr-react. 
