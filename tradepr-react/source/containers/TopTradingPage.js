@@ -223,8 +223,10 @@ TopTradingPage.propTypes = {
 
 //  selectedTopTrading: '201508',
 //  topTradingByDate: {
-function mapStateToProps(state) {
-  const { year, month } = state.router.params
+function mapStateToProps(state, appProps) {
+  const { year, month } = appProps.params; //tate.router.params
+  //const year = appProps.params.year
+  //const month = "8"
   const {
     selectedTopTrading,
     topTradingByDate

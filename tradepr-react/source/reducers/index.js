@@ -22,7 +22,7 @@
 
 
 import { combineReducers } from 'redux'
-import { routerStateReducer as router } from 'redux-router'
+import { routerReducer } from 'react-router-redux'
 import {
   SELECT_TOPTRADING, INVALIDATE_TOPTRADING,
   REQUEST_TOPTRADING, RECEIVE_TOPTRADING
@@ -80,7 +80,7 @@ function topTradingByDate(state = {}, action) {
 const rootReducer = combineReducers({
   topTradingByDate,
   selectedTopTrading,
-  router
+  routing: routerReducer
 })
 
 export default rootReducer

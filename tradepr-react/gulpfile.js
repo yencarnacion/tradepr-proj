@@ -54,3 +54,5 @@ gulp.task('compileServer', function () {
         .pipe(source('server.js'))
         .pipe(gulp.dest('./build/'));
 });
+
+

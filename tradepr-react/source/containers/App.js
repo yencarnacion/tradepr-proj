@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { pushState } from 'redux-router'
+//import { pushState } from 'redux-router'
+import { routerActions } from 'react-router-redux'
 import Explore from '../components/Explore'
 import { resetErrorMessage } from '../actions'
 
@@ -19,7 +20,7 @@ class App extends Component {
   handleChange(nextVal) {
     let year = nextVal.substring(0, 4);
     let month = Number(nextVal.substring(4));
-    this.props.pushState(null, `/${year}/${month}`)
+    this.props.push(`/${year}/${month}`)
   }
 
   renderErrorMessage() {
@@ -58,7 +59,7 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
-  pushState: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   // Injected by React Router
   children: PropTypes.node
@@ -73,5 +74,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   resetErrorMessage,
-  pushState
+  push: routerActions.push
 })(App)

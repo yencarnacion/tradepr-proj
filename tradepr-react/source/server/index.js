@@ -2,12 +2,16 @@
 require('es6-promise').polyfill();
 import Hapi from 'hapi';
 import qs from 'query-string';
-import {configureStoreServer} from '../store/configurestore'
-import Root from '../containers/Root';
-import serialize from 'serialize-javascript';
-import {reduxReactRouter, match} from 'redux-router/server'
+import {configureStore} from '../store/configurestore'
 import React from 'react';
+import serialize from 'serialize-javascript';
 import {renderToString} from 'react-dom/server';
+import { Provider } from 'react-redux'
+import { createMemoryHistory, match, RouterContext } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+import routes from '../routes'
+
+
 //const Path = require('path');
 const Inert = require('inert');
 
@@ -25,27 +29,28 @@ server.connection({ port: 4000 });
 
 server.register(Inert, () => {});
 
+const HTML = ({ content, store }) => (
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title>TradePR</title>
+    </head>
+    <body>
+      <div id="root" dangerouslySetInnerHTML={{ __html: content }}/>
+      <script dangerouslySetInnerHTML={{ __html: `window.__initialState__=${serialize(store.getState())};` }}/>
+      <script src="/static/tradepr.js"/>
+    </body>
+  </html>
+)
 
-const getMarkup = (store) => {
-  const initialState = serialize(store.getState());
+const getMarkup = (store, renderProps) => {
+  const content = renderToString(
+    <Provider store={store}>
+      <RouterContext {...renderProps}/>
+    </Provider>
+  )
 
-  const markup = renderToString(
-    <Root store={store} key="root" />
-  );
-
-  return `<!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8" />
-        <title>TradePR</title>
-      </head>
-      <body>
-        <div id="root">${markup}</div>
-        <script>window.__initialState = ${initialState};</script>
-        <script src="/static/tradepr.js"></script>
-      </body>
-    </html>
-  `;
+  return ('<!doctype html>\n' + renderToString(<HTML content={content} store={store}/>))
 };
 
 server.route({
@@ -56,31 +61,36 @@ server.route({
     }
 });
 
+
 server.route({
     method: 'GET',
     path: '/{name*}',
     handler: function (request, reply) {
-        const store = configureStoreServer();
+
         const query = qs.stringify(request.query);
         const url = request.path + (query.length ? '?' + query : '');
+        const memoryHistory = createMemoryHistory(url);
+        const store = configureStore(memoryHistory);
+        const history = syncHistoryWithStore(memoryHistory, store)
 
-        store.dispatch(match(url, (error, redirectLocation, routerState) => {
-          if (error) {
-            console.error('Router error:', error);
-            console.log('not implemented');
-            //reply.status(500).send(error.message);
-          } else if (redirectLocation) {
-            //reply.redirect(302, redirectLocation.pathname + redirectLocation.search);
-            console.log('not implemented');
-          } else if (!routerState) {
-            //reply.status(400).send('Not Found');
-            console.log('not implemented');
-          } else {
-            reply(getMarkup(store));
-          }
-        }));
+        var replyCalled = false;
+        match({ history, routes, location: url }, (error, redirectLocation, renderProps) => {
+            if (error) {
+              console.log("error");// res.status(500).send(error.message)
+            } else if (redirectLocation) {
+              console.log("not implemented"); //res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+            } else if (renderProps) {
+              console.log("not implemented");
 
-        //reply(url);
+              reply(getMarkup(store, renderProps));
+              replyCalled = true;
+            }
+          })
+
+          if(!replyCalled){
+        reply(url);
+        replyCalled = true;
+      }
     }
 });
 
