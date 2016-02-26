@@ -20,8 +20,10 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "catbox-memory": "^2.0.1",
     "d3": "^3.5.12",
     "es6-promise": "^3.0.2",
+    "h2o2": "^5.0.0",
     "hapi": "^13.0.0",
     "history": "^1.17.0",
     "inert": "^3.2.0",
@@ -39,6 +41,7 @@
     "redux": "^3.2.1",
     "redux-logger": "^2.4.0",
     "redux-thunk": "^1.0.3",
-    "serialize-javascript": "^1.1.2"
+    "serialize-javascript": "^1.1.2",
+    "wreck": "^7.0.0"
   }
 }

@@ -10,13 +10,23 @@ import { Provider } from 'react-redux'
 import { createMemoryHistory, match, RouterContext } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import routes from '../routes'
+import { API } from '../constants'
 
 
 //const Path = require('path');
 const Inert = require('inert');
+const h2o2 = require('h2o2');
 
 
-const server = new Hapi.Server(/*{
+const server = new Hapi.Server({
+  cache: [
+    {
+      engine: require('catbox-memory'),
+      name: 'memory-cache'
+    }
+  ]
+
+}/*{
     connections: {
         routes: {
             files: {
@@ -27,12 +37,16 @@ const server = new Hapi.Server(/*{
 }*/);
 server.connection({ port: 4000 });
 
-server.register(Inert, () => {});
+
+var plugins = [{'register':Inert}, {'register': h2o2}];
+//var plugins = [{'register': h2o2}];
+
+server.register(plugins, () => {});
 
 const HTML = ({ content, store }) => (
   <html>
     <head>
-      <meta charset="utf-8" />
+      <meta charSet="utf-8" />
       <title>TradePR</title>
     </head>
     <body>
@@ -53,11 +67,58 @@ const getMarkup = (store, renderProps) => {
   return ('<!doctype html>\n' + renderToString(<HTML content={content} store={store}/>))
 };
 
+server.route(
+         {
+            method: 'GET',
+            path: '/favicon.ico',
+            handler: function(request, reply){
+               reply.file('./build/favicon.ico');
+            },
+            config: {
+              cache: {
+                expiresIn: 86400,
+                privacy: 'public'
+              }
+            }
+          }
+);
+
 server.route({
     method: 'GET',
     path: '/static/tradepr.js',
     handler: function (request, reply) {
         reply.file('./build/tradepr.js')
+    }
+});
+
+// Reverse proxy to API
+const Wreck = require('wreck');
+const queryAPI = function(url, callback){
+  Wreck.get(url, {json: true}, (err,res,payload) => {
+      callback(err, payload);
+   }
+  )
+}
+const apiCache = server.cache({
+  generateFunc: queryAPI,
+  expiresIn: 60*1000,
+  cache: 'memory-cache',
+  segment: 'API',
+  generateTimeout: 60*1000
+})
+server.route({
+    method: 'GET',
+    path: '/api/{name*}',
+    handler: function (request, reply) {
+      const query = qs.stringify(request.query);
+      const path = request.path + (query.length ? '?' + query : '');
+      const url = `${API}${path}`;
+      apiCache.get(url, (err, value, cache, report) => {
+        if(err){
+          throw err;
+        }
+        reply (value);
+      })
     }
 });
 
