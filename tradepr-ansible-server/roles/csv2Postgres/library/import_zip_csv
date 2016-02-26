@@ -30,7 +30,7 @@ def get_zip(module, uri, guid):
     (rc, stdout, stderr) = module.run_command(args)
 
     if rc != 0:
-        return rc
+        return rc == 0
 
     # Download zip file
     outputfile = "/tmp/"+guid+"/data.zip"
@@ -39,12 +39,26 @@ def get_zip(module, uri, guid):
     (rc, stdout, stderr) = module.run_command(args)
 
     if rc != 0:
-        return rc
+        return rc == 0
 
     # unzip the zip file
     unzip_path = module.get_bin_path('unzip', required=True)
     args = [unzip_path, outputfile, '-d', '/tmp/'+guid] 
     (rc, stdout, stderr) = module.run_command(args)
+
+    if rc != 0:
+        return rc == 0
+
+    # unzip each file if files are zipped
+    for dirname, dirnames, filenames in os.walk('/tmp/'+guid):
+        for filename in filenames:
+            if re.search('\.zip$', filename):
+                if filename != 'data.zip':
+                    f=os.path.join(dirname, filename)
+                    args = [unzip_path, f, '-d', dirname] 
+                    (rc, stdout, stderr) = module.run_command(args)
+                    if rc != 0:
+                        return rc == 0
 
     return rc == 0
 
