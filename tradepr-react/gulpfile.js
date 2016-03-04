@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-
+var sass = require('gulp-sass');
 var browserify = require('browserify');
 var babelify = require('babelify');
 var lessify = require('lessify');
@@ -9,7 +9,7 @@ var source = require('vinyl-source-stream');
 var insertGlobals = require('insert-module-globals');
 
 gulp.task('default', function(callback) {
-   sequence(['compileClient', 'compileServer'], 'start', callback);
+   sequence(['sass', 'compileClient', 'compileServer'], 'start', callback);
 });
 
 gulp.task('start', function () {
@@ -55,4 +55,9 @@ gulp.task('compileServer', function () {
         .pipe(gulp.dest('./build/'));
 });
 
-
+gulp.task('sass', function () {
+  return  gulp.src(['./source/**/*.{scss,sass}'])
+              .pipe(sass({ includePaths : ['bower_components', 'node_modules'],
+errLogToConsole: true}))
+              .pipe(gulp.dest('./build'));
+});

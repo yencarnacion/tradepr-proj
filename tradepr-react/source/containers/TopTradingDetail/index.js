@@ -2,11 +2,11 @@
 import d3 from 'd3'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { fetchTopTrading } from '../actions'
+import { fetchTopTrading } from '../../actions'
 import ReactDOM from 'react-dom';
-var sprintf = require("../utils/sprintf");
+var sprintf = require("../../utils/sprintf");
 
-require('../styles/d3Chart.less');
+require('./styles/d3Chart.less');
 var d3Chart = {};
 
 d3Chart.create = function(el, props, data, id) {
@@ -135,7 +135,7 @@ function loadData(props) {
   props.fetchTopTrading(`${fulldate}`);
 }
 
-export default class TopTradingPage extends Component {
+export default class TopTradingDetail extends Component {
 
   componentWillMount() {
     loadData(this.props);
@@ -182,7 +182,7 @@ export default class TopTradingPage extends Component {
           );
         }
         return (
-            <div>
+          <div className='grid-content'>
             {importHead}
             <table>
               <tbody>
@@ -209,7 +209,7 @@ export default class TopTradingPage extends Component {
     }
 }
 
-TopTradingPage.propTypes = {
+TopTradingDetail.propTypes = {
   fulldate: PropTypes.number.isRequired,
   year:  PropTypes.string.isRequired,
   month: PropTypes.string.isRequired,
@@ -253,8 +253,6 @@ function mapStateToProps(state, appProps) {
   }
 }
 
-var TopTradingPageFactory = React.createFactory(TopTradingPage);
-
 export default connect(mapStateToProps, {
   fetchTopTrading
-})(TopTradingPage)
+})(TopTradingDetail)

@@ -47,6 +47,7 @@ const HTML = ({ content, store }) => (
   <html>
     <head>
       <meta charSet="utf-8" />
+      <link rel="stylesheet" href="/static/tradepr.css" />
       <title>TradePR</title>
     </head>
     <body>
@@ -91,6 +92,13 @@ server.route({
     }
 });
 
+server.route({
+    method: 'GET',
+    path: '/static/tradepr.css',
+    handler: function (request, reply) {
+        reply.file('./build/tradepr.css')
+    }
+});
 // Reverse proxy to API
 const Wreck = require('wreck');
 const queryAPI = function(url, callback){
