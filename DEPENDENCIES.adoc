@@ -6,6 +6,7 @@
 * install Vagrant from https://www.vagrantup.com
 * install ansible (see instructions below)
 * install node.js from https://nodejs.org/en/download/
+* install gulp `npm install gulp -g`
 
 .Install Ansible (on OSX)
 ----

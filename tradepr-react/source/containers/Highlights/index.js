@@ -10,16 +10,14 @@ class Highlights extends Component {
           Trade Highlights
         </h4>
         <p>Contents:</p>
-        <ul>
-          <li>
-            <p><Link to={`/highlights/toptrading`}>Top Trading Partners</Link>
-              <br/>
+        <dl>
+            <dt><Link to={`/highlights/toptrading`}>Top Trading Partners</Link></dt>
+            <dd>
               Top 15 countries in total trade,
               exports and imports for the current
               year
-            </p>
-            </li>
-        </ul>
+            </dd>
+        </dl>
       </div>
     );
   }

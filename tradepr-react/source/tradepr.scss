@@ -1,2 +1,4 @@
+// disables foundation's component's CSS class output
+// See node-modules/foundation-apps/scss/_settings.scss
 $include-css: ();
 @import "foundation-apps/scss/foundation";
