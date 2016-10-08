@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-//import { pushState } from 'redux-router'
 import { routerActions } from 'react-router-redux'
-import Explore from '../components/Explore'
-import { resetErrorMessage } from '../actions'
+import Explore from '../../components/Explore'
+import { resetErrorMessage } from '../../actions'
 
-class App extends Component {
+class TopTrading extends Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
@@ -20,7 +19,7 @@ class App extends Component {
   handleChange(nextVal) {
     let year = nextVal.substring(0, 4);
     let month = Number(nextVal.substring(4));
-    this.props.push(`/${year}/${month}`)
+    this.props.push(`/highlights/toptrading/${year}/${month}`)
   }
 
   renderErrorMessage() {
@@ -55,7 +54,7 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
+TopTrading.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
@@ -75,4 +74,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   resetErrorMessage,
   push: routerActions.push
-})(App)
+})(TopTrading)
