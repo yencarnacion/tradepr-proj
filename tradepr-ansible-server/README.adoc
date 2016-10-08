@@ -12,7 +12,7 @@ As provided, the Vagrant VM will use all of your cores and 2 Gigabytes of your m
  $ ansible-playbook tradepr.yml
 ----
 The above opens up a compojure app on localhost port 3000
-To see results point your browser to http://localhost:3000/api/tradepr
+To see results point your browser to http://192.168.33.10:3000/api/tradepr
 The project merges https://github.com/yencarnacion/tradepr and https://github.com/yencarnacion/zipWithCsvToPostgresVM into one project.
  
 

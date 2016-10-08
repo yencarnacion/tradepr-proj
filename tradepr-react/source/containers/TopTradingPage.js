@@ -135,7 +135,7 @@ function loadData(props) {
   props.fetchTopTrading(`${fulldate}`);
 }
 
-export default class TopTradingPage extends Component {
+export class TopTradingPage extends Component {
 
   componentWillMount() {
     loadData(this.props);

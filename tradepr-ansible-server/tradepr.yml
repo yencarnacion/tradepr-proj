@@ -5,7 +5,7 @@
     proj_name: tradepr-project
     database_user: "{{ proj_name }}"
     database_name: "{{ proj_name }}"
-    zipuri: http://www.estadisticas.pr/iepr/LinkClick.aspx?fileticket=JVyYmIHqbqc%3d&tabid=200
+    zipuri: http://www.webninjapr.com.s3.amazonaws.com/data/HTS10_ALL.zip
     locale: en_US.UTF-8
   vars_files:
     - secrets.yml
